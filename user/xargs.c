@@ -3,24 +3,26 @@
 #include "user/user.h"
 #include "kernel/param.h"
 
-int readline(char *new_argv[32],int curr_argc){
+int readline(char *new_argv[32], int curr_argc){
 	char buf[1024];
-	int n=0;
-	while(read(0,buf+n,1)){
-		if(n==1023){
-			fprintf(2,"argument is too long\n");
+	int n = 0;
+	while(read(0, buf+n, 1)){
+		if (n == 1023)
+		{
+			fprintf(2, "argument is too long\n");
 			exit(1);
 		}
-		if(buf[n]=='\n'){
+		if (buf[n] == '\n')
+		{
 			break;
 		}
 		n++;
 	}
 	buf[n] = 0;
-	if(n == 0)return 0;
+	if (n == 0)return 0;
 	int offset = 0;
 	while(offset < n){
-		new_argv[curr_argc++] = buf+offset;
+		new_argv[curr_argc++] = buf + offset;
 		while(buf[offset] != ' ' && offset < n){
 			offset++;
 		}
@@ -30,6 +32,7 @@ int readline(char *new_argv[32],int curr_argc){
 	}
 	return curr_argc;
 }
+
 int main(int argc, char const *argv[])
 {
 	if (argc <= 1)
